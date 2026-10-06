@@ -1,0 +1,61 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+}
+.menubar {
+  display: flex;
+  background: #ececec;
+  border-bottom: 1px solid #ccc;
+}
+.menu-item {
+  padding: 6px 14px;
+  cursor: pointer;
+  user-select: none;
+}
+.menu-item:hover {
+  background: #dcdcdc;
+}
+.content {
+  padding: 20px;
+}
+#result {
+  font-weight: bold;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dialog {
+  background: white;
+  padding: 16px 20px;
+  border-radius: 6px;
+  min-width: 260px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+.dialog h3 {
+  margin-top: 0;
+}
+.dialog select,
+.dialog input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px;
+  margin-bottom: 12px;
+}
+.dialog select {
+  height: 140px;
+}
+.dialog-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.dialog-buttons button {
+  padding: 6px 14px;
+  cursor: pointer;
+}
