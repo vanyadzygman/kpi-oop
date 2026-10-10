@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DOCUMENT</title>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <div id="menubar">
+      <div class="menu">
+        <div class="title">Файл</div>
+        <div class="dropdown">
+          <div class="item" data-action="clear">Очистити</div>
+        </div>
+      </div>
+      <div class="menu">
+        <div class="title">Об'єкти</div>
+        <div class="dropdown" id="objects-dropdown">
+          <div class="item" data-type="point">Крапка</div>
+          <div class="item" data-type="line">Лінія</div>
+          <div class="item" data-type="rect">Прямокутник</div>
+          <div class="item" data-type="ellipse">Еліпс</div>
+        </div>
+      </div>
+      <div class="menu">
+        <div class="title">Довідка</div>
+        <div class="dropdown">
+          <div class="item" data-action="about">Про програму</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="stage">
+      <canvas id="canvas"></canvas>
+    </div>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

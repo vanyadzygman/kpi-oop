@@ -1,0 +1,84 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 13px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+#menubar {
+  display: flex;
+  background: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+  user-select: none;
+}
+
+.menu {
+  position: relative;
+}
+
+.menu > .title {
+  padding: 4px 10px;
+  cursor: default;
+}
+
+.menu:hover > .title,
+.menu.open > .title {
+  background: #cde8ff;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 170px;
+  background: #f8f8f8;
+  border: 1px solid #aaa;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  z-index: 10;
+}
+
+.menu.open .dropdown {
+  display: block;
+}
+
+.item {
+  position: relative;
+  padding: 4px 12px 4px 28px;
+  cursor: default;
+  white-space: nowrap;
+}
+
+.item:hover {
+  background: #cde8ff;
+}
+
+.item.checked::before {
+  content: "✓";
+  position: absolute;
+  left: 9px;
+}
+
+#stage {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+}
