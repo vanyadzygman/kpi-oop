@@ -1,0 +1,47 @@
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 13px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+header {
+  padding: 10px 14px;
+  background: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+}
+
+h1 { font-size: 15px; margin: 0 0 4px; }
+
+#status { color: #555; margin-top: 2px; }
+#status.warn { color: #b26a00; }
+
+#grid {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 10px 14px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 2px 14px;
+  align-content: start;
+  font-family: Consolas, "Courier New", monospace;
+}
+
+.cell {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 2px 4px;
+  border-bottom: 1px solid #eee;
+}
+
+.idx { color: #888; }

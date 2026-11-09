@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lab6</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="menubar">
+      <div class="menu">
+        <div class="title">Робота</div>
+        <div class="dropdown">
+          <div class="item" id="run-item">Вектор і графік…</div>
+        </div>
+      </div>
+      <div class="menu">
+        <div class="title">Довідка</div>
+        <div class="dropdown">
+          <div class="item" id="about-item">Про програму</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="statusbar">
+      <span class="app"><i id="dot-object2" class="dot"></i>Object2</span>
+      <span class="app"><i id="dot-object3" class="dot"></i>Object3</span>
+    </div>
+
+    <main>
+      <h1>Lab6 — менеджер</h1>
+      <p class="hint">
+        Оберіть «Робота → Вектор і графік…», введіть параметри й натисніть «Виконати».
+        Далі все відбувається автоматично.
+      </p>
+      <ol id="log"></ol>
+    </main>
+
+    <dialog id="params-dialog">
+      <form id="params-form" method="dialog">
+        <h3>Параметри вектора</h3>
+        <label
+          >n (кількість чисел)
+          <input
+            id="field-n"
+            type="text"
+            inputmode="numeric"
+            value="20"
+            autocomplete="off"
+          />
+        </label>
+        <label
+          >Min
+          <input
+            id="field-min"
+            type="text"
+            inputmode="decimal"
+            value="-10"
+            autocomplete="off"
+          />
+        </label>
+        <label
+          >Max
+          <input
+            id="field-max"
+            type="text"
+            inputmode="decimal"
+            value="10"
+            autocomplete="off"
+          />
+        </label>
+        <p class="error" id="params-error"></p>
+        <div class="buttons">
+          <button type="button" id="params-cancel">Відміна</button>
+          <button type="submit" id="params-ok">Виконати</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
