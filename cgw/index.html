@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Растровий редактор</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="menubar"></div>
+
+  <div id="optionsbar">
+    <label>Товщина <select id="opt-size"></select></label>
+    <label>Фігури <select id="opt-fill"></select></label>
+    <label>Шрифт <select id="opt-font-family"></select></label>
+    <label>Розмір <input id="opt-font-size" type="number" min="6" max="200" step="1"></label>
+  </div>
+
+  <div id="workspace">
+    <div id="toolbar"></div>
+    <div id="viewport">
+      <div id="sheet">
+        <canvas id="image-canvas"></canvas>
+        <canvas id="overlay-canvas"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div id="palette">
+    <div class="colors">
+      <label>Колір 1 <input id="color-primary" type="color"></label>
+      <button id="swap-colors" type="button" title="Поміняти кольори місцями">⇄</button>
+      <label>Колір 2 <input id="color-secondary" type="color"></label>
+    </div>
+    <div id="swatches"></div>
+    <span class="hint">Ліва кнопка миші — колір 1, права — колір 2</span>
+  </div>
+
+  <div id="statusbar">
+    <span id="st-pos"></span>
+    <span id="st-sel"></span>
+    <span id="st-size"></span>
+    <span id="st-zoom"></span>
+    <span id="st-file"></span>
+  </div>
+
+  <div id="exit-screen" hidden>
+    <div>
+      <p>Роботу завершено. Тепер можна закрити вкладку.</p>
+      <button id="exit-back" type="button">Повернутися до редактора</button>
+    </div>
+  </div>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
