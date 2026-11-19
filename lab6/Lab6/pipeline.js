@@ -1,3 +1,5 @@
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export async function runPipeline({ bus, launcher, log }, { n, min, max }) {
   const runId = Date.now().toString(36);
   log.separator("Запуск " + runId + ": n = " + n + ", Min = " + min + ", Max = " + max);
@@ -14,6 +16,8 @@ export async function runPipeline({ bus, launcher, log }, { n, min, max }) {
   launcher.arrangeAll();
   log.info("Вікна Object2 і Object3 розташовано");
 
+  launcher.focus("object2");
+  await sleep(300);
   const generated = bus.waitFor("generated", (m) => m.runId === runId, 15000);
   bus.send("object2", "generate", { runId, n, min, max });
   log.info("Lab6 → Object2: generate(n, Min, Max)");
@@ -25,6 +29,8 @@ export async function runPipeline({ bus, launcher, log }, { n, min, max }) {
       (g.clipboard ? "дані записано" : "недоступний"),
   );
 
+  launcher.focus("object3");
+  await sleep(300);
   const plotted = bus.waitFor("plotted", (m) => m.runId === runId, 20000);
   bus.send("object3", "plot", { runId, n: g.n, clipboard: g.clipboard, data: g.data });
   log.info("Lab6 → Object3: plot(runId, n)");

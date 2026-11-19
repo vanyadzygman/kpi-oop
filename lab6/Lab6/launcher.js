@@ -89,6 +89,14 @@ export class Launcher {
     return result;
   }
 
+  focus(app) {
+    const ref = this.refs[app];
+    if (!ref || ref.closed) return;
+    try {
+      ref.focus();
+    } catch {}
+  }
+
   arrangeAll() {
     const layout = this.layout();
     for (const app of Object.keys(layout)) {
