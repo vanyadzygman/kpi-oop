@@ -1,0 +1,241 @@
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 13px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+#menubar {
+  display: flex;
+  background: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+  user-select: none;
+}
+
+.menu { position: relative; }
+
+.menu > .title {
+  padding: 4px 10px;
+  cursor: default;
+}
+
+.menu:hover > .title,
+.menu.open > .title { background: #cde8ff; }
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 260px;
+  background: #f8f8f8;
+  border: 1px solid #aaa;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, .25);
+  z-index: 30;
+}
+
+.menu.open .dropdown { display: block; }
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 4px 12px;
+  cursor: default;
+  white-space: nowrap;
+}
+
+.item:hover { background: #cde8ff; }
+.item.disabled { color: #999; }
+.item.disabled:hover { background: transparent; }
+.shortcut { color: #666; }
+.separator { height: 1px; margin: 3px 0; background: #ddd; }
+
+#optionsbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 4px 10px;
+  background: #f6f6f6;
+  border-bottom: 1px solid #ddd;
+}
+
+#optionsbar label { display: inline-flex; align-items: center; gap: 6px; }
+#optionsbar input[type="number"] { width: 64px; }
+
+#workspace {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+#toolbar {
+  display: grid;
+  grid-template-columns: repeat(2, 34px);
+  grid-auto-rows: 34px;
+  gap: 2px;
+  align-content: start;
+  padding: 4px;
+  background: #f0f0f0;
+  border-right: 1px solid #ccc;
+  user-select: none;
+}
+
+.tool-btn {
+  padding: 0;
+  display: grid;
+  place-items: center;
+  color: #222;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.tool-btn:hover { background: #e2edf8; border-color: #9cc3e5; }
+.tool-btn.active { background: #cde8ff; border-color: #6aa7de; }
+.tool-btn svg { width: 20px; height: 20px; }
+
+.tooltip {
+  display: none;
+  position: fixed;
+  z-index: 40;
+  padding: 3px 8px;
+  background: #ffffe1;
+  color: #000;
+  border: 1px solid #767676;
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.tooltip.visible { display: block; }
+
+#viewport {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  background: #8a8f98;
+}
+
+#sheet {
+  position: relative;
+  margin: 10px;
+  background: #fff;
+  box-shadow: 0 0 0 1px #555;
+}
+
+#sheet canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  image-rendering: pixelated;
+}
+
+#overlay-canvas { cursor: crosshair; touch-action: none; }
+
+.text-prompt {
+  position: absolute;
+  z-index: 5;
+  min-width: 60px;
+  margin: 0;
+  padding: 0;
+  border: 1px dashed #333;
+  background: transparent;
+  outline: none;
+  resize: none;
+  overflow: hidden;
+  white-space: pre;
+}
+
+#palette {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 4px 10px;
+  background: #f0f0f0;
+  border-top: 1px solid #ccc;
+}
+
+.colors { display: flex; align-items: center; gap: 8px; }
+.colors label { display: inline-flex; align-items: center; gap: 6px; }
+.colors input[type="color"] { width: 40px; height: 26px; padding: 0; }
+#swap-colors { padding: 2px 8px; cursor: pointer; }
+
+#swatches {
+  display: grid;
+  grid-template-columns: repeat(10, 22px);
+  gap: 2px;
+}
+
+.swatch {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 1px solid #555;
+  cursor: pointer;
+}
+
+.hint { color: #666; }
+
+#statusbar {
+  display: flex;
+  gap: 24px;
+  padding: 3px 10px;
+  background: #e8e8e8;
+  border-top: 1px solid #ccc;
+}
+
+#statusbar span { min-width: 60px; }
+
+.form-dialog {
+  border: 1px solid #999;
+  border-radius: 4px;
+  padding: 16px 18px;
+  width: 320px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, .3);
+}
+
+.form-dialog::backdrop { background: rgba(0, 0, 0, .35); }
+.form-dialog h3 { margin: 0 0 12px; font-size: 14px; }
+
+.form-dialog label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 10px;
+}
+
+.form-dialog input { font: inherit; padding: 4px 6px; }
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.buttons button { font: inherit; padding: 4px 14px; cursor: pointer; }
+
+#exit-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background: #f0f0f0;
+}
+
+#exit-screen[hidden] { display: none; }
+#exit-screen button { font: inherit; padding: 6px 16px; cursor: pointer; }
