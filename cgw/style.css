@@ -197,7 +197,7 @@ body {
   border-top: 1px solid #ccc;
 }
 
-#statusbar span { min-width: 60px; }
+#statusbar span { min-width: 100px; }
 
 .form-dialog {
   border: 1px solid #999;
