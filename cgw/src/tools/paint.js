@@ -10,6 +10,7 @@ export class PencilTool extends Tool {
 
   onDown(p, e) {
     this.pickColors(e);
+    this.editor.saveState();
     this.last = p;
     this.plot(p);
   }

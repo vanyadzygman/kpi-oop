@@ -63,7 +63,6 @@ export class Menu {
   enabled(item) {
     return item.enabled ? item.enabled() : true;
   }
-
   async run(item) {
     try {
       await item.action();

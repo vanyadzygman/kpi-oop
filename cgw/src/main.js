@@ -17,30 +17,18 @@ const editor = new Editor({
 const pencil = new PencilTool(editor);
 
 new Menu($("menubar"), [
-  {
-    title: "Вигляд",
-    items: [
-      {
-        label: "Збільшити",
-        key: "Ctrl+=",
-        action: () => editor.setZoom(editor.zoom * 2),
-      },
-      { label: "Зменшити", key: "Ctrl+-", action: () => editor.setZoom(editor.zoom / 2) },
-      { label: "Реальний розмір", key: "Ctrl+0", action: () => editor.setZoom(1) },
-    ],
-  },
-  {
-    title: "Довідка",
-    items: [
-      {
-        label: "Про програму",
-        action: () =>
-          alert(
-            "Растровий графічний редактор\nРГР з ООП, варіант 11\nІМ-51, Дзигман Іван",
-          ),
-      },
-    ],
-  },
+  { title: "Правка", items: [
+    { label: "Скасувати", key: "Ctrl+Z", action: () => editor.undo(), enabled: () => editor.history.canUndo },
+    { label: "Повторити", key: "Ctrl+Y", action: () => editor.redo(), enabled: () => editor.history.canRedo },
+  ] },
+  { title: "Вигляд", items: [
+    { label: "Збільшити", key: "Ctrl+=", action: () => editor.setZoom(editor.zoom * 2) },
+    { label: "Зменшити", key: "Ctrl+-", action: () => editor.setZoom(editor.zoom / 2) },
+    { label: "Реальний розмір", key: "Ctrl+0", action: () => editor.setZoom(1) },
+  ] },
+  { title: "Довідка", items: [
+    { label: "Про програму", action: () => alert("Растровий графічний редактор\nРГР з ООП, варіант 11\nІМ-51, Дзигман Іван") },
+  ] },
 ]);
 
 editor.create(800, 600);

@@ -1,8 +1,13 @@
+import { History } from "./history.js";
+
+// Редактор: растр (image-canvas), шар ескізів (overlay-canvas), масштаб, історія змін.
+// Події миші передаються поточному інструменту (патерн «Стратегія»)
 export class Editor {
   constructor({ canvas, overlay, sheet, viewport, options, palette, status }) {
     Object.assign(this, { canvas, overlay, sheet, viewport, options, palette, status });
     this.ctx = canvas.getContext("2d", { willReadFrequently: true });
     this.octx = overlay.getContext("2d");
+    this.history = new History();
     this.zoom = 1;
     this.tool = null;
     this.dragging = false;
@@ -27,6 +32,7 @@ export class Editor {
     this.setSize(width, height);
     this.ctx.fillStyle = "#ffffff";
     this.ctx.fillRect(0, 0, width, height);
+    this.history.clear();
     this.setFile("Без назви.bmp", false);
   }
 
@@ -55,6 +61,36 @@ export class Editor {
       Object.assign(el.style, style);
     this.status.set("size", `${this.width} × ${this.height} px`);
     this.status.set("zoom", Math.round(this.zoom * 100) + "%");
+  }
+
+  snapshot() {
+    return this.ctx.getImageData(0, 0, this.width, this.height);
+  }
+
+  restore(img) {
+    if (img.width !== this.width || img.height !== this.height)
+      this.setSize(img.width, img.height);
+    this.ctx.putImageData(img, 0, 0);
+  }
+
+  saveState() {
+    this.history.push(this.snapshot());
+    this.setFile(this.fileName, true);
+  }
+
+  undo() {
+    this.step((current) => this.history.undo(current));
+  }
+  redo() {
+    this.step((current) => this.history.redo(current));
+  }
+
+  step(take) {
+    this.tool.reset();
+    const img = take(this.snapshot());
+    if (!img) return;
+    this.restore(img);
+    this.setFile(this.fileName, true);
   }
 
   clearOverlay() {
