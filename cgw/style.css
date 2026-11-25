@@ -1,6 +1,9 @@
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   font-family: "Segoe UI", Tahoma, sans-serif;
@@ -20,7 +23,9 @@ body {
   user-select: none;
 }
 
-.menu { position: relative; }
+.menu {
+  position: relative;
+}
 
 .menu > .title {
   padding: 4px 10px;
@@ -28,7 +33,9 @@ body {
 }
 
 .menu:hover > .title,
-.menu.open > .title { background: #cde8ff; }
+.menu.open > .title {
+  background: #cde8ff;
+}
 
 .dropdown {
   display: none;
@@ -38,11 +45,13 @@ body {
   min-width: 260px;
   background: #f8f8f8;
   border: 1px solid #aaa;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, .25);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
   z-index: 30;
 }
 
-.menu.open .dropdown { display: block; }
+.menu.open .dropdown {
+  display: block;
+}
 
 .item {
   display: flex;
@@ -53,11 +62,23 @@ body {
   white-space: nowrap;
 }
 
-.item:hover { background: #cde8ff; }
-.item.disabled { color: #999; }
-.item.disabled:hover { background: transparent; }
-.shortcut { color: #666; }
-.separator { height: 1px; margin: 3px 0; background: #ddd; }
+.item:hover {
+  background: #cde8ff;
+}
+.item.disabled {
+  color: #999;
+}
+.item.disabled:hover {
+  background: transparent;
+}
+.shortcut {
+  color: #666;
+}
+.separator {
+  height: 1px;
+  margin: 3px 0;
+  background: #ddd;
+}
 
 #optionsbar {
   display: flex;
@@ -68,8 +89,14 @@ body {
   border-bottom: 1px solid #ddd;
 }
 
-#optionsbar label { display: inline-flex; align-items: center; gap: 6px; }
-#optionsbar input[type="number"] { width: 64px; }
+#optionsbar label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+#optionsbar input[type="number"] {
+  width: 64px;
+}
 
 #workspace {
   flex: 1;
@@ -100,9 +127,18 @@ body {
   cursor: pointer;
 }
 
-.tool-btn:hover { background: #e2edf8; border-color: #9cc3e5; }
-.tool-btn.active { background: #cde8ff; border-color: #6aa7de; }
-.tool-btn svg { width: 20px; height: 20px; }
+.tool-btn:hover {
+  background: #e2edf8;
+  border-color: #9cc3e5;
+}
+.tool-btn.active {
+  background: #cde8ff;
+  border-color: #6aa7de;
+}
+.tool-btn svg {
+  width: 20px;
+  height: 20px;
+}
 
 .tooltip {
   display: none;
@@ -117,7 +153,9 @@ body {
   pointer-events: none;
 }
 
-.tooltip.visible { display: block; }
+.tooltip.visible {
+  display: block;
+}
 
 #viewport {
   position: relative;
@@ -142,7 +180,10 @@ body {
   image-rendering: pixelated;
 }
 
-#overlay-canvas { cursor: crosshair; touch-action: none; }
+#overlay-canvas {
+  cursor: crosshair;
+  touch-action: none;
+}
 
 .text-prompt {
   position: absolute;
@@ -168,10 +209,25 @@ body {
   border-top: 1px solid #ccc;
 }
 
-.colors { display: flex; align-items: center; gap: 8px; }
-.colors label { display: inline-flex; align-items: center; gap: 6px; }
-.colors input[type="color"] { width: 40px; height: 26px; padding: 0; }
-#swap-colors { padding: 2px 8px; cursor: pointer; }
+.colors {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.colors label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.colors input[type="color"] {
+  width: 40px;
+  height: 26px;
+  padding: 0;
+}
+#swap-colors {
+  padding: 2px 8px;
+  cursor: pointer;
+}
 
 #swatches {
   display: grid;
@@ -187,7 +243,9 @@ body {
   cursor: pointer;
 }
 
-.hint { color: #666; }
+.hint {
+  color: #666;
+}
 
 #statusbar {
   display: flex;
@@ -197,18 +255,25 @@ body {
   border-top: 1px solid #ccc;
 }
 
-#statusbar span { min-width: 100px; }
+#statusbar span {
+  min-width: 100px;
+}
 
 .form-dialog {
   border: 1px solid #999;
   border-radius: 4px;
   padding: 16px 18px;
   width: 320px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, .3);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
 }
 
-.form-dialog::backdrop { background: rgba(0, 0, 0, .35); }
-.form-dialog h3 { margin: 0 0 12px; font-size: 14px; }
+.form-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.35);
+}
+.form-dialog h3 {
+  margin: 0 0 12px;
+  font-size: 14px;
+}
 
 .form-dialog label {
   display: flex;
@@ -217,7 +282,10 @@ body {
   margin-bottom: 10px;
 }
 
-.form-dialog input { font: inherit; padding: 4px 6px; }
+.form-dialog input {
+  font: inherit;
+  padding: 4px 6px;
+}
 
 .buttons {
   display: flex;
@@ -225,7 +293,11 @@ body {
   gap: 8px;
 }
 
-.buttons button { font: inherit; padding: 4px 14px; cursor: pointer; }
+.buttons button {
+  font: inherit;
+  padding: 4px 14px;
+  cursor: pointer;
+}
 
 #exit-screen {
   position: fixed;
@@ -237,5 +309,11 @@ body {
   background: #f0f0f0;
 }
 
-#exit-screen[hidden] { display: none; }
-#exit-screen button { font: inherit; padding: 6px 16px; cursor: pointer; }
+#exit-screen[hidden] {
+  display: none;
+}
+#exit-screen button {
+  font: inherit;
+  padding: 6px 16px;
+  cursor: pointer;
+}
