@@ -3,7 +3,9 @@ import { Options, Palette, StatusBar } from "./panels.js";
 import { Menu } from "./menu.js";
 import { Toolbar } from "./toolbar.js";
 import { PencilTool, BrushTool, SprayTool, EraserTool, PointTool } from "./tools/paint.js";
-import { LineTool, RectTool, EllipseTool } from "./tools/shapes.js";
+import {
+  LineTool, RectTool, RoundRectTool, EllipseTool, PolygonTool, TRIANGLE, RHOMBUS, HEXAGON, ARROW, STAR,
+} from "./tools/shapes.js";
 
 const $ = (id) => document.getElementById(id);
 
@@ -21,7 +23,10 @@ const pencil = new PencilTool(editor);
 const tools = [
   pencil, new BrushTool(editor), new SprayTool(editor), new EraserTool(editor),
   new PointTool(editor),
-  new LineTool(editor), new RectTool(editor), new EllipseTool(editor),
+  new LineTool(editor), new RectTool(editor), new RoundRectTool(editor), new EllipseTool(editor),
+  new PolygonTool(editor, "Трикутник", TRIANGLE), new PolygonTool(editor, "Ромб", RHOMBUS),
+  new PolygonTool(editor, "Шестикутник", HEXAGON), new PolygonTool(editor, "Стрілка", ARROW),
+  new PolygonTool(editor, "Зірка", STAR),
 ];
 
 new Menu($("menubar"), [
