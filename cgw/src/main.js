@@ -2,6 +2,7 @@ import { Editor } from "./editor.js";
 import { Options, Palette, StatusBar } from "./panels.js";
 import { Menu } from "./menu.js";
 import { Toolbar } from "./toolbar.js";
+import { SizeDialog } from "./dialog.js";
 import { PencilTool, BrushTool, SprayTool, EraserTool, PointTool } from "./tools/paint.js";
 import { FillTool, PickerTool } from "./tools/fill.js";
 import { TextTool } from "./tools/text.js";
@@ -20,6 +21,7 @@ const editor = new Editor({
   palette: new Palette(),
   status: new StatusBar(),
 });
+const sizeDialog = new SizeDialog();
 const pencil = new PencilTool(editor);
 
 const tools = [
@@ -31,7 +33,16 @@ const tools = [
   new PolygonTool(editor, "Зірка", STAR),
 ];
 
+// ---------- команди меню ----------
+async function create() {
+  const size = await sizeDialog.ask("Новий растр", editor.width, editor.height);
+  if (size) editor.create(size.width, size.height);
+}
+
 new Menu($("menubar"), [
+  { title: "Файл", items: [
+    { label: "Створити…", action: create },
+  ] },
   { title: "Правка", items: [
     { label: "Скасувати", key: "Ctrl+Z", action: () => editor.undo(), enabled: () => editor.history.canUndo },
     { label: "Повторити", key: "Ctrl+Y", action: () => editor.redo(), enabled: () => editor.history.canRedo },
