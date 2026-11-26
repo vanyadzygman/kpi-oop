@@ -8,25 +8,27 @@ export class Editor {
     this.ctx = canvas.getContext("2d", { willReadFrequently: true });
     this.octx = overlay.getContext("2d");
     this.history = new History();
+    this.handlers = {};
     this.zoom = 1;
     this.tool = null;
     this.dragging = false;
     this.bindPointer();
   }
 
-  get width() {
-    return this.canvas.width;
-  }
-  get height() {
-    return this.canvas.height;
-  }
+  get width() { return this.canvas.width; }
+  get height() { return this.canvas.height; }
+
+  on(event, fn) { (this.handlers[event] ??= []).push(fn); }
+  emit(event, arg) { (this.handlers[event] ?? []).forEach((fn) => fn(arg)); }
 
   setTool(tool) {
     this.tool?.finish();
     this.tool = tool;
     this.overlay.style.cursor = tool.cursor;
+    this.emit("tool", tool);
   }
 
+  // ---------- документ ----------
   create(width, height) {
     this.tool?.reset();
     this.setSize(width, height);
@@ -53,37 +55,30 @@ export class Editor {
   setZoom(zoom) {
     this.tool?.commit();
     this.zoom = Math.min(16, Math.max(1 / 8, zoom));
-    const style = {
-      width: this.width * this.zoom + "px",
-      height: this.height * this.zoom + "px",
-    };
-    for (const el of [this.sheet, this.canvas, this.overlay])
-      Object.assign(el.style, style);
+    const style = { width: this.width * this.zoom + "px", height: this.height * this.zoom + "px" };
+    for (const el of [this.sheet, this.canvas, this.overlay]) Object.assign(el.style, style);
     this.status.set("size", `${this.width} × ${this.height} px`);
     this.status.set("zoom", Math.round(this.zoom * 100) + "%");
   }
 
+  // ---------- історія ----------
   snapshot() {
     return this.ctx.getImageData(0, 0, this.width, this.height);
   }
 
   restore(img) {
-    if (img.width !== this.width || img.height !== this.height)
-      this.setSize(img.width, img.height);
+    if (img.width !== this.width || img.height !== this.height) this.setSize(img.width, img.height);
     this.ctx.putImageData(img, 0, 0);
   }
 
+  // Викликається ПЕРЕД кожною зміною растру
   saveState() {
     this.history.push(this.snapshot());
     this.setFile(this.fileName, true);
   }
 
-  undo() {
-    this.step((current) => this.history.undo(current));
-  }
-  redo() {
-    this.step((current) => this.history.redo(current));
-  }
+  undo() { this.step((current) => this.history.undo(current)); }
+  redo() { this.step((current) => this.history.redo(current)); }
 
   step(take) {
     this.tool.reset();
@@ -93,16 +88,19 @@ export class Editor {
     this.setFile(this.fileName, true);
   }
 
+  // ---------- операції над растром ----------
+
   clearOverlay() {
     this.octx.clearRect(0, 0, this.width, this.height);
   }
 
+  // ---------- миша ----------
   bindPointer() {
     const o = this.overlay;
     o.addEventListener("pointerdown", (e) => {
       if (this.dragging || (e.button !== 0 && e.button !== 2)) return;
       this.dragging = true;
-      o.setPointerCapture(e.pointerId);
+      o.setPointerCapture(e.pointerId); // рух відстежується і за межами растру
       this.tool.onDown(this.toImage(e), e);
     });
     o.addEventListener("pointermove", (e) => {
@@ -119,11 +117,9 @@ export class Editor {
     o.addEventListener("contextmenu", (e) => e.preventDefault());
   }
 
+  // Екранні координати -> координати пікселя растру
   toImage(e) {
     const r = this.overlay.getBoundingClientRect();
-    return {
-      x: Math.floor((e.clientX - r.left) / this.zoom),
-      y: Math.floor((e.clientY - r.top) / this.zoom),
-    };
+    return { x: Math.floor((e.clientX - r.left) / this.zoom), y: Math.floor((e.clientY - r.top) / this.zoom) };
   }
 }

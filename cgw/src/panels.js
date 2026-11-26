@@ -7,20 +7,16 @@ function fillSelect(id, items, value) {
   return el;
 }
 
+// Панель опцій: товщина ліній, режим фігур, шрифт
 export class Options {
   constructor() {
-    this.sizeEl = fillSelect(
-      "opt-size",
-      SIZES.map((s) => [s, s + " px"]),
-      3,
-    );
+    this.sizeEl = fillSelect("opt-size", SIZES.map((s) => [s, s + " px"]), 3);
   }
 
-  get size() {
-    return Number(this.sizeEl.value);
-  }
+  get size() { return Number(this.sizeEl.value); }
 }
 
+// Палітра: колір 1 (основний) та колір 2 (фон)
 export class Palette {
   constructor() {
     this.primaryEl = document.getElementById("color-primary");
@@ -29,20 +25,13 @@ export class Palette {
     this.secondary = "#ffffff";
   }
 
-  get primary() {
-    return this.primaryEl.value;
-  }
-  set primary(color) {
-    this.primaryEl.value = color;
-  }
-  get secondary() {
-    return this.secondaryEl.value;
-  }
-  set secondary(color) {
-    this.secondaryEl.value = color;
-  }
+  get primary() { return this.primaryEl.value; }
+  set primary(color) { this.primaryEl.value = color; }
+  get secondary() { return this.secondaryEl.value; }
+  set secondary(color) { this.secondaryEl.value = color; }
 }
 
+// Рядок стану: позиція курсора, виділення, розміри, масштаб, файл
 export class StatusBar {
   constructor() {
     this.fields = {};

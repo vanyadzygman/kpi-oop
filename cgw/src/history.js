@@ -1,3 +1,4 @@
+// Історія змін для Undo/Redo: зберігає знімки растру (ImageData)
 export class History {
   constructor(limit = 30) {
     this.limit = limit;
@@ -5,12 +6,8 @@ export class History {
     this.redoStack = [];
   }
 
-  get canUndo() {
-    return this.undoStack.length > 0;
-  }
-  get canRedo() {
-    return this.redoStack.length > 0;
-  }
+  get canUndo() { return this.undoStack.length > 0; }
+  get canRedo() { return this.redoStack.length > 0; }
 
   push(state) {
     this.undoStack.push(state);

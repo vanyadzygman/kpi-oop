@@ -1,10 +1,12 @@
 const CODES = { "=": "Equal", "-": "Minus", Del: "Delete", Esc: "Escape" };
 
+// "Ctrl+Shift+S" -> фізична клавіша KeyS (працює за будь-якої розкладки)
 function keyCode(key) {
   if (CODES[key]) return CODES[key];
   return /^\d$/.test(key) ? "Digit" + key : "Key" + key;
 }
 
+// Головне меню: будується з опису, обробляє клацання та гарячі клавіші
 export class Menu {
   constructor(root, menus) {
     this.root = root;
@@ -51,8 +53,7 @@ export class Menu {
   }
 
   open(menu) {
-    for (const item of this.items)
-      item.el.classList.toggle("disabled", !this.enabled(item));
+    for (const item of this.items) item.el.classList.toggle("disabled", !this.enabled(item));
     menu.classList.add("open");
   }
 
@@ -63,6 +64,8 @@ export class Menu {
   enabled(item) {
     return item.enabled ? item.enabled() : true;
   }
+
+  // Єдине місце обробки помилок; AbortError — користувач закрив діалог
   async run(item) {
     try {
       await item.action();
@@ -82,11 +85,7 @@ export class Menu {
   matches(e, key) {
     const parts = key.split("+");
     const main = parts.pop();
-    return (
-      e.code === keyCode(main) &&
-      !e.altKey &&
-      e.ctrlKey === parts.includes("Ctrl") &&
-      e.shiftKey === parts.includes("Shift")
-    );
+    return e.code === keyCode(main) && !e.altKey &&
+      e.ctrlKey === parts.includes("Ctrl") && e.shiftKey === parts.includes("Shift");
   }
 }
