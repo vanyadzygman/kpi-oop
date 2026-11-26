@@ -2,7 +2,7 @@ import { Editor } from "./editor.js";
 import { Options, Palette, StatusBar } from "./panels.js";
 import { Menu } from "./menu.js";
 import { Toolbar } from "./toolbar.js";
-import { PencilTool } from "./tools/paint.js";
+import { PencilTool, BrushTool, SprayTool, EraserTool, PointTool } from "./tools/paint.js";
 
 const $ = (id) => document.getElementById(id);
 
@@ -17,7 +17,10 @@ const editor = new Editor({
 });
 const pencil = new PencilTool(editor);
 
-const tools = [pencil];
+const tools = [
+  pencil, new BrushTool(editor), new SprayTool(editor), new EraserTool(editor),
+  new PointTool(editor),
+];
 
 new Menu($("menubar"), [
   { title: "Правка", items: [
