@@ -1,5 +1,6 @@
 const SIZES = [1, 2, 3, 4, 5, 8, 12, 16, 24];
 const FILL_MODES = [["stroke", "Контур"], ["fill", "Заливка"], ["both", "Контур і заливка"]];
+const FONTS = ["Arial", "Times New Roman", "Courier New", "Verdana", "Georgia", "Comic Sans MS"];
 const SWATCHES = [
   "#000000", "#7f7f7f", "#880015", "#ed1c24", "#ff7f27", "#fff200", "#22b14c", "#00a2e8", "#3f48cc", "#a349a4",
   "#ffffff", "#c3c3c3", "#b97a57", "#ffaec9", "#ffc90e", "#efe4b0", "#b5e61d", "#99d9ea", "#7092be", "#c8bfe7",
@@ -17,10 +18,18 @@ export class Options {
   constructor() {
     this.sizeEl = fillSelect("opt-size", SIZES.map((s) => [s, s + " px"]), 3);
     this.fillEl = fillSelect("opt-fill", FILL_MODES, "stroke");
+    this.fontEl = fillSelect("opt-font-family", FONTS.map((f) => [f, f]), "Arial");
+    this.fontSizeEl = document.getElementById("opt-font-size");
+    this.fontSizeEl.value = 24;
   }
 
   get size() { return Number(this.sizeEl.value); }
   get fillMode() { return this.fillEl.value; }
+  get fontSize() { return Math.max(6, Number(this.fontSizeEl.value) || 24); }
+
+  font(scale = 1) {
+    return `${this.fontSize * scale}px "${this.fontEl.value}"`;
+  }
 }
 
 // Палітра: колір 1 (основний) та колір 2 (фон)

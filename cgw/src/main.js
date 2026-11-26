@@ -4,6 +4,7 @@ import { Menu } from "./menu.js";
 import { Toolbar } from "./toolbar.js";
 import { PencilTool, BrushTool, SprayTool, EraserTool, PointTool } from "./tools/paint.js";
 import { FillTool, PickerTool } from "./tools/fill.js";
+import { TextTool } from "./tools/text.js";
 import {
   LineTool, RectTool, RoundRectTool, EllipseTool, PolygonTool, TRIANGLE, RHOMBUS, HEXAGON, ARROW, STAR,
 } from "./tools/shapes.js";
@@ -23,7 +24,7 @@ const pencil = new PencilTool(editor);
 
 const tools = [
   pencil, new BrushTool(editor), new SprayTool(editor), new EraserTool(editor),
-  new FillTool(editor), new PickerTool(editor), new PointTool(editor),
+  new FillTool(editor), new PickerTool(editor), new TextTool(editor), new PointTool(editor),
   new LineTool(editor), new RectTool(editor), new RoundRectTool(editor), new EllipseTool(editor),
   new PolygonTool(editor, "Трикутник", TRIANGLE), new PolygonTool(editor, "Ромб", RHOMBUS),
   new PolygonTool(editor, "Шестикутник", HEXAGON), new PolygonTool(editor, "Стрілка", ARROW),
