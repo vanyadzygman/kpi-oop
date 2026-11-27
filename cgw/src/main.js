@@ -3,6 +3,7 @@ import { Options, Palette, StatusBar } from "./panels.js";
 import { Menu } from "./menu.js";
 import { Toolbar } from "./toolbar.js";
 import { SizeDialog } from "./dialog.js";
+import { FileManager } from "./files.js";
 import { PencilTool, BrushTool, SprayTool, EraserTool, PointTool } from "./tools/paint.js";
 import { FillTool, PickerTool } from "./tools/fill.js";
 import { TextTool } from "./tools/text.js";
@@ -22,6 +23,7 @@ const editor = new Editor({
   status: new StatusBar(),
 });
 const sizeDialog = new SizeDialog();
+const files = new FileManager(editor, sizeDialog);
 const pencil = new PencilTool(editor);
 
 const tools = [
@@ -34,14 +36,13 @@ const tools = [
 ];
 
 // ---------- команди меню ----------
-async function create() {
-  const size = await sizeDialog.ask("Новий растр", editor.width, editor.height);
-  if (size) editor.create(size.width, size.height);
-}
 
 new Menu($("menubar"), [
   { title: "Файл", items: [
-    { label: "Створити…", action: create },
+    { label: "Створити…", action: () => files.create() },
+    { label: "Відкрити…", key: "Ctrl+O", action: () => files.open() },
+    { label: "Записати", key: "Ctrl+S", action: () => files.save() },
+    { label: "Записати як…", key: "Ctrl+Shift+S", action: () => files.saveAs() },
   ] },
   { title: "Правка", items: [
     { label: "Скасувати", key: "Ctrl+Z", action: () => editor.undo(), enabled: () => editor.history.canUndo },
@@ -61,3 +62,4 @@ new Toolbar($("toolbar"), editor, tools);
 
 editor.create(800, 600);
 editor.setTool(pencil);
+if (!window.showOpenFilePicker) alert("Для роботи з файлами потрібен Google Chrome або Microsoft Edge");

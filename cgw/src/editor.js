@@ -38,6 +38,13 @@ export class Editor {
     this.setFile("Без назви.bmp", false);
   }
 
+  load(img, name) {
+    this.tool?.reset();
+    this.restore(img);
+    this.history.clear();
+    this.setFile(name, false);
+  }
+
   setFile(name, modified) {
     this.fileName = name;
     this.modified = modified;
@@ -89,6 +96,9 @@ export class Editor {
   }
 
   // ---------- операції над растром ----------
+  flush() {
+    this.tool?.commit(); // зафіксувати незавершену дію (текст, переміщуваний фрагмент)
+  }
 
   clearOverlay() {
     this.octx.clearRect(0, 0, this.width, this.height);
