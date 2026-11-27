@@ -13,13 +13,23 @@ const SAVE_TYPES = [
 // Операції меню "Файл". Стандартні вікна вибору файлу — File System Access API
 // (showOpenFilePicker / showSaveFilePicker), аналог GetOpenFileName / GetSaveFileName
 export class FileManager {
-  constructor(editor, sizeDialog) {
+  constructor(editor, sizeDialog, confirmDialog) {
     this.editor = editor;
     this.sizeDialog = sizeDialog;
+    this.confirmDialog = confirmDialog;
     this.handle = null; // поточний файл — для "Записати"
   }
 
+  // true — можна продовжувати: зміни записано або від них відмовилися
+  async confirmDiscard() {
+    if (!this.editor.modified) return true;
+    const answer = await this.confirmDialog.ask(`Зберегти зміни у файлі «${this.editor.fileName}»?`);
+    if (answer === "yes") await this.save();
+    return answer !== "";
+  }
+
   async create() {
+    if (!(await this.confirmDiscard())) return;
     const size = await this.sizeDialog.ask("Новий растр", this.editor.width, this.editor.height);
     if (!size) return;
     this.handle = null;
@@ -27,6 +37,7 @@ export class FileManager {
   }
 
   async open() {
+    if (!(await this.confirmDiscard())) return;
     const [handle] = await window.showOpenFilePicker({ types: OPEN_TYPES });
     const file = await handle.getFile();
     this.editor.load(await ImageCodec.decode(file), file.name);

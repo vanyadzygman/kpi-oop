@@ -35,3 +35,16 @@ export class SizeDialog extends Dialog {
     return { width: Number(this.form.w.value), height: Number(this.form.h.value) };
   }
 }
+
+// Питання з відповіддю Так / Ні / Скасувати
+export class ConfirmDialog extends Dialog {
+  constructor() {
+    super(`<h3>Растровий редактор</h3><p></p>
+      <div class="buttons"><button value="yes">Так</button><button value="no">Ні</button><button value="">Скасувати</button></div>`);
+  }
+
+  ask(text) {
+    this.form.querySelector("p").textContent = text;
+    return this.show();
+  }
+}
