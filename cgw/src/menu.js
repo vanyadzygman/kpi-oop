@@ -76,7 +76,7 @@ export class Menu {
 
   onKey(e) {
     const item = this.items.find((it) => it.key && this.matches(e, it.key));
-    if (!item) return;
+    if (!item || item.native) return; // native: обробляє браузер (Ctrl+V -> подія paste)
     e.preventDefault();
     this.close();
     if (this.enabled(item)) this.run(item);

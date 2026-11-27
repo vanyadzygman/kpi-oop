@@ -4,6 +4,7 @@ import { Menu } from "./menu.js";
 import { Toolbar } from "./toolbar.js";
 import { SizeDialog, ConfirmDialog } from "./dialog.js";
 import { FileManager } from "./files.js";
+import { Clipboard } from "./clipboard.js";
 import { SelectTool } from "./tools/select.js";
 import { PencilTool, BrushTool, SprayTool, EraserTool, PointTool } from "./tools/paint.js";
 import { FillTool, PickerTool } from "./tools/fill.js";
@@ -25,6 +26,7 @@ const editor = new Editor({
 });
 const sizeDialog = new SizeDialog();
 const files = new FileManager(editor, sizeDialog, new ConfirmDialog());
+const clipboard = new Clipboard();
 const select = new SelectTool(editor);
 const pencil = new PencilTool(editor);
 
@@ -39,6 +41,17 @@ const tools = [
 
 // ---------- команди меню ----------
 const hasSelection = () => select.rect !== null;
+
+async function copy(cut) {
+  await clipboard.copy(select.copy());
+  if (cut) select.erase();
+}
+
+function paste(img) {
+  if (!img) return;
+  editor.setTool(select);
+  select.paste(img);
+}
 
 async function exit() {
   if (!(await files.confirmDiscard())) return;
@@ -59,6 +72,9 @@ new Menu($("menubar"), [
     { label: "Скасувати", key: "Ctrl+Z", action: () => editor.undo(), enabled: () => editor.history.canUndo },
     { label: "Повторити", key: "Ctrl+Y", action: () => editor.redo(), enabled: () => editor.history.canRedo },
     null,
+    { label: "Вирізати", key: "Ctrl+X", action: () => copy(true), enabled: hasSelection },
+    { label: "Копіювати", key: "Ctrl+C", action: () => copy(false), enabled: hasSelection },
+    { label: "Вставити", key: "Ctrl+V", native: true, action: async () => paste(await clipboard.read()) },
     { label: "Видалити", key: "Del", action: () => select.erase(), enabled: hasSelection },
     null,
     { label: "Виділити все", key: "Ctrl+A", action: () => { editor.setTool(select); select.selectAll(); } },
@@ -76,6 +92,11 @@ new Menu($("menubar"), [
 
 new Toolbar($("toolbar"), editor, tools);
 
+// Ctrl+V: зображення з системного буфера приходить у події paste
+document.addEventListener("paste", async (e) => {
+  e.preventDefault();
+  paste(await clipboard.fromEvent(e));
+});
 window.addEventListener("beforeunload", (e) => editor.modified && e.preventDefault());
 $("exit-back").addEventListener("click", () => ($("exit-screen").hidden = true));
 

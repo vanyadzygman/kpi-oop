@@ -80,6 +80,11 @@ export class SelectTool extends Tool {
   }
 
   // ---------- команди меню "Правка" ----------
+  copy() {
+    if (this.floating) return this.floating;
+    const r = this.rect;
+    return r && this.ctx.getImageData(r.x, r.y, r.w, r.h);
+  }
 
   erase() {
     if (!this.floating && this.rect) {
@@ -87,6 +92,15 @@ export class SelectTool extends Tool {
       this.fillRect(this.rect);
     }
     this.reset();
+  }
+
+  paste(img) {
+    this.commit();
+    this.editor.saveState();
+    const o = this.editor.visibleOrigin();
+    this.floating = img;
+    this.rect = { x: o.x, y: o.y, w: img.width, h: img.height };
+    this.draw();
   }
 
   selectAll() {

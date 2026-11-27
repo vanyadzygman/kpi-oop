@@ -132,4 +132,13 @@ export class Editor {
     const r = this.overlay.getBoundingClientRect();
     return { x: Math.floor((e.clientX - r.left) / this.zoom), y: Math.floor((e.clientY - r.top) / this.zoom) };
   }
+
+  // Лівий верхній піксель видимої частини растру (сюди вставляється фрагмент)
+  visibleOrigin() {
+    const r = this.overlay.getBoundingClientRect(), v = this.viewport.getBoundingClientRect();
+    return {
+      x: Math.max(0, Math.floor((v.left - r.left) / this.zoom)),
+      y: Math.max(0, Math.floor((v.top - r.top) / this.zoom)),
+    };
+  }
 }
