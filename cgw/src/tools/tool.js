@@ -10,6 +10,7 @@ export class Tool {
 
   get tip() { return this.name; } // текст підказки на Toolbar
   get ctx() { return this.editor.ctx; }
+  get selection() { return null; } // виділена область (є лише у SelectTool)
 
   // Ліва кнопка: колір 1 — контур, колір 2 — заливка; права кнопка — навпаки
   pickColors(e) {

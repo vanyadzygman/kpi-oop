@@ -4,6 +4,7 @@ import { Menu } from "./menu.js";
 import { Toolbar } from "./toolbar.js";
 import { SizeDialog, ConfirmDialog } from "./dialog.js";
 import { FileManager } from "./files.js";
+import { SelectTool } from "./tools/select.js";
 import { PencilTool, BrushTool, SprayTool, EraserTool, PointTool } from "./tools/paint.js";
 import { FillTool, PickerTool } from "./tools/fill.js";
 import { TextTool } from "./tools/text.js";
@@ -24,10 +25,11 @@ const editor = new Editor({
 });
 const sizeDialog = new SizeDialog();
 const files = new FileManager(editor, sizeDialog, new ConfirmDialog());
+const select = new SelectTool(editor);
 const pencil = new PencilTool(editor);
 
 const tools = [
-  pencil, new BrushTool(editor), new SprayTool(editor), new EraserTool(editor),
+  select, pencil, new BrushTool(editor), new SprayTool(editor), new EraserTool(editor),
   new FillTool(editor), new PickerTool(editor), new TextTool(editor), new PointTool(editor),
   new LineTool(editor), new RectTool(editor), new RoundRectTool(editor), new EllipseTool(editor),
   new PolygonTool(editor, "Трикутник", TRIANGLE), new PolygonTool(editor, "Ромб", RHOMBUS),
@@ -36,6 +38,7 @@ const tools = [
 ];
 
 // ---------- команди меню ----------
+const hasSelection = () => select.rect !== null;
 
 async function exit() {
   if (!(await files.confirmDiscard())) return;
@@ -55,6 +58,11 @@ new Menu($("menubar"), [
   { title: "Правка", items: [
     { label: "Скасувати", key: "Ctrl+Z", action: () => editor.undo(), enabled: () => editor.history.canUndo },
     { label: "Повторити", key: "Ctrl+Y", action: () => editor.redo(), enabled: () => editor.history.canRedo },
+    null,
+    { label: "Видалити", key: "Del", action: () => select.erase(), enabled: hasSelection },
+    null,
+    { label: "Виділити все", key: "Ctrl+A", action: () => { editor.setTool(select); select.selectAll(); } },
+    { label: "Зняти виділення", key: "Esc", action: () => editor.tool.finish() },
   ] },
   { title: "Вигляд", items: [
     { label: "Збільшити", key: "Ctrl+=", action: () => editor.setZoom(editor.zoom * 2) },
